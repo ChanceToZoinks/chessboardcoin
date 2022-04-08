@@ -47,4 +47,4 @@ You could also maybe mess around in the notebook.
 |(f)lip |x y | flip the coin at (x,y), multiplayer only|
 
 
-There's also some stuff in here like a book on coding theory and some notes/exercise solutions I left in here.
+There's also some stuff in here like a book on coding theory and some notes/exercise solutions I left in here since this started as repo for me to keep my notes in while I went through the book to try to find a solution to the problem in it.
