@@ -40,7 +40,7 @@ class Board:
     def __init__(self) -> None:
         self.__generate_board()
         self.__choose_key_square()
-        self.regions = self.__get_all_regions()
+        self.__calculate_all_regions()
 
     def __generate_board(self) -> None:
         _ = []
@@ -52,11 +52,16 @@ class Board:
         _ = random.choice(self.board)
         _.is_key = True
 
-    def __show_board(self, board) -> None:
+    def __show_board(self, board, sq_asnum=False) -> None:
+        _ = ""
         for i, r in enumerate(board):
-            print(r, end=" ")
+            if sq_asnum:
+                _ += f"{str(r.num):^2s} "
+            else:
+                _ += f"{str(r):^2s} "
             if i % 8 == 7:
-                print("\n", end="")
+                _ += "\n"
+        print(_, end="")
 
     def __get_region(self, board_filter) -> list:
         region = []
@@ -73,6 +78,9 @@ class Board:
     def __board_coords_mask(self, sq, x, y):
         return sq if sq.x == x and sq.y == y else "-"
 
+    def __board_sq_num_mask(self, sq):
+        return sq.num
+
     def __try_get_sq_by_coords(self, _x, _y, board=None):
         _ = lambda x: x.x == _x and x.y == _y
         if board:
@@ -81,7 +89,7 @@ class Board:
             sq = next(filter(_, self.board), None)
         return sq
 
-    def __get_all_regions(self):
+    def __calculate_all_regions(self):
         region_dict = {
             0: {0: [], 1: []},
             1: {0: [], 1: []},
@@ -97,10 +105,18 @@ class Board:
             region1 = self.__get_region(board_filter=_1)
             region_dict[i][0] = region0
             region_dict[i][1] = region1
-        return region_dict
+        self.regions = region_dict
 
-    def show_board(self) -> None:
-        self.__show_board(self.board)
+    def __swap_board_sqs(self, swap_idx) -> None:
+        for i in range(len(self.board)):
+            if (i + 1) % swap_idx == 0 and (i // 8) % swap_idx == 0:
+                if i + 8 < len(self.board):  # swap up
+                    self.board[i], self.board[i + 8] = self.board[i + 8], self.board[i]
+                else:  # swap down
+                    self.board[i], self.board[i - 8] = self.board[i - 8], self.board[i]
+
+    def show_board(self, sq_asnum=False) -> None:
+        self.__show_board(self.board, sq_asnum)
 
     def show_region(self, region_id: int, side: int) -> None:
         if not isinstance(region_id, int) or not isinstance(side, int):
@@ -196,6 +212,25 @@ class Board:
         _ = lambda k: self.__board_coords_mask(k, x, y)
         r = self.__get_region(board_filter=_)
         self.__show_board(r)
+
+    def show_board_as_sq_nums(self) -> None:
+        self.__show_board(self.board, sq_asnum=True)
+
+    def show_board_as_sq_nums_swapped(self, swap_idx: int) -> None:  # just show dont actually swap
+        _ = lambda k: self.__board_sq_num_mask(k)
+        r = self.__get_region(board_filter=_)
+        for i in range(len(r)):
+            if (i + 1) % swap_idx == 0 and (i // 8) % swap_idx == 0:
+                if i + 8 < len(r):  # swap up
+                    r[i], r[i + 8] = r[i + 8], r[i]
+                else:  # swap down
+                    r[i], r[i - 8] = r[i - 8], r[i]
+        self.__show_board(r)
+
+    def swap_board(self, swap_idx: int) -> None:  # actually swap
+        self.__swap_board_sqs(swap_idx)
+        self.__calculate_all_regions()
+        self.__show_board(self.board, True)
 
 
 def load_strategy(strat_file: str = "strategy.yaml"):
