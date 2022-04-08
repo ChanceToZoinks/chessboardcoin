@@ -3,7 +3,7 @@
 Two people, A, B are in jail. The jailer is giving them a single chance to escape - they must beat the jailer at a game.
 The game rules are as follows:
   - Person A will enter the room alone and the jailer will lay 64 coins on a chessboard, one on each square, in any configuration the jailer desires.
-  - The jailer will hide a single tiny key under one of the coins. The key is infinitely thin and it will not be possible to determine which coin the key is under based on any kind of physical disturbance caused by the key being under a coin.
+  - The jailer will hide a single tiny key under one of the coins. The key is infinitely thin and it will not be possible for person B to determine which coin the key is under based on any kind of physical disturbance caused by the key being under a coin. Person A sees where the jailer hid the key.
   - Person A can now flip exactly one coin on the board then must leave the room. Saying anything or doing anything other than thinking or flipping a coin while in the room is strictly prohibited (maybe some scratch paper and a pencil is allowed for calculations if needed). Any attempts to game the system, leave notes behind, or cheat in any way will result in instant death for both people.
   - Person B will now enter the room and the same rules apply as to person A. Person B must now select the correct coin based solely on the information available to them on the board.
   - If Person B correctly selects the coin the key is hidden under the jailer will release them both. The jailer will not cheat and will respect the rules of the game.
